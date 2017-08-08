@@ -1,0 +1,108 @@
+// colors
+$primary: #29B6F6;
+$secondary: #01579B;
+$lightGray: #E0E0E0;
+
+
+
+// fonts
+$baseFont: Arial,"Helvetica Neue",Helvetica,sans-serif;
+
+@mixin font($arg) {
+  font-family:$arg, $baseFont;
+  font-weight: normal;
+}
+
+
+
+// content grid settings
+$susy: (
+  columns: 12,
+	global-box-sizing: border-box,
+	math: fluid,
+  output: float,
+	gutter-position: split
+);
+
+
+
+// media queries
+$responsive: true;
+
+@mixin breakpoint($breakpoint) {
+  @if ($responsive) {
+	  $super: "only screen and (min-width: 1401px)";
+    $wide: "only screen and (max-width: 1400px)";
+    $desktop: "only screen and (max-width: 1100px)";
+    $narrow: "only screen and (max-width: 960px)";
+    $narrower: "only screen and (max-width:800px)";
+    $mobile: "only screen and (max-width: 500px)";
+
+		@if $breakpoint == super {
+      @media #{$super} { @content; }
+    }
+    @else if $breakpoint == wide {
+      @media #{$wide} { @content; }
+    }
+    @else if $breakpoint == desktop {
+      @media #{$desktop} { @content; }
+    }
+    @else if $breakpoint == narrow {
+      @media #{$narrow}  { @content; }
+    }
+    @else if $breakpoint == narrower {
+      @media #{$narrower}  { @content; }
+    }
+    @else if $breakpoint == mobile {
+      @media #{$mobile}  { @content; }
+    }
+    // custom breakpoint - pass pixel width for max-width
+    @else {
+	    @media only screen and (max-width: #{$breakpoint}px) { @content; }
+    }
+  }
+}
+
+
+
+// debug labels
+body#debug {
+	&:before {
+		position: fixed;
+		top:5px;
+		left:5px;
+		z-index: 1000;
+		background:rgba(#000, 0.5);
+		color:#fff;
+		font-size: .6em;
+		margin:0;
+		padding:0;
+		height: 20px;
+		line-height: 20px;
+		padding:0 6px;
+
+		@include breakpoint(super) {
+			content:'super';
+		}
+
+		@include breakpoint(wide) {
+			content:'wide';
+		}
+
+		@include breakpoint(desktop) {
+			content:'desktop';
+		}
+
+		@include breakpoint(narrow) {
+			content:'narrow';
+		}
+
+		@include breakpoint(narrower) {
+			content:'narrower';
+		}
+
+		@include breakpoint(mobile) {
+			content:'mobile';
+		}
+	}
+}

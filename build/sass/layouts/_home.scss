@@ -1,0 +1,7 @@
+span {
+	@include span(4 of 12);
+	height: 200px;
+	background:$primary;
+	display: inline-block;
+	float: left;
+}

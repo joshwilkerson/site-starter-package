@@ -1,0 +1,17 @@
+// mobile-only elements
+.mobileShow {
+	display: none;
+
+	@include breakpoint(mobile) {
+		display: block;
+	}
+}
+
+.mobileHide {
+	display: inherit;
+	
+	@include breakpoint(mobile) {
+		display: none;
+	}
+}
+
