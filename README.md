@@ -1,5 +1,5 @@
 # site-starter-package
-A local development starting point using Gulp to compile the SCSS &amp; javascript
+A local development starting point using Gulp to compile SCSS &amp; javascript
 
 **Getting Started:**
 
