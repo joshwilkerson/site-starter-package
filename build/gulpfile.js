@@ -57,13 +57,32 @@ gulp.task('styles', () => {
 // watch javascript
 gulp.task('scripts', () => {
   return gulp.src('js/*.js')
+  	
+  	// initialize sourcemaps
     .pipe(sourcemaps.init())
+    
+    // babel/es2015
     .pipe(babel({
         presets: [es2015]
     }))
+    
+    // error messages/notifications
+    .on('error', console.error.bind(console))
+    .on('error', (e) => {
+  		notify.onError({
+  			title: "Gulp",
+  			message: "Javascript compile error",
+  			sound: "Submarine"})(e);
+  	})
+  	
+  	// concatenate all js files in build/js directory 
     .pipe(concat('scripts.min.js'))
+    
+    // create sourcemap and compiled js 
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('../dist/js'))
+    
+    // re-inject javasrcript into page
     .pipe(livereload());
 });
 
