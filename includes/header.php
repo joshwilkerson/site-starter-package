@@ -20,18 +20,7 @@
 
 	<link rel='stylesheet' href='dist/css/layout.min.css' />
 
-<?php if($host == "localhost") { ?>
-	<script src="http://localhost:35729/livereload.js?snipver=1"></script>
-
-	<style>
-		body:before {
-			background:#c0392b;
-			display: block;
-			color:#fff;
-			padding:2%;
-		}
-	</style>
-<?php } ?>
+<?php if($host == "localhost") { echo '<script src="http://localhost:35729/livereload.js?snipver=1"></script>'; } ?>
 
 </head>
 
