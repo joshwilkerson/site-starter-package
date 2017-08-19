@@ -56,8 +56,8 @@ gulp.task('styles', () => {
 
 // watch javascript
 gulp.task('scripts', () => {
-  return gulp.src('js/*.js')
-  	
+  return gulp.src(['js/!(functions)*.js', 'js/functions.js'])
+  
   	// initialize sourcemaps
     .pipe(sourcemaps.init())
     
@@ -75,10 +75,10 @@ gulp.task('scripts', () => {
   			sound: "Submarine"})(e);
   	})
   	
-  	// concatenate all js files in build/js directory 
+  	// concatenate all js files in build/js directory
     .pipe(concat('scripts.min.js'))
     
-    // create sourcemap and compiled js 
+    // create sourcemap and compiled js
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('../dist/js'))
     
