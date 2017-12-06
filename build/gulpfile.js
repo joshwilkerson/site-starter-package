@@ -1,24 +1,27 @@
 'use strict';
 
 // load Gulp dependencies
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const sourcemaps = require('gulp-sourcemaps');
-const rename = require('gulp-rename');
-const autoprefixer = require('gulp-autoprefixer');
-const combineMq = require('gulp-combine-mq');
-const uglify = require('gulp-uglify');
-const babel = require('gulp-babel');
-const es2015 = require('babel-preset-es2015');
-const concat = require('gulp-concat');
-const notify = require('gulp-notify');
-const livereload = require('gulp-livereload');
+const gulp = require('gulp'),
+      sass = require('gulp-sass'),
+      sourcemaps = require('gulp-sourcemaps'),
+      rename = require('gulp-rename'),
+      autoprefixer = require('gulp-autoprefixer'),
+      combineMq = require('gulp-combine-mq'),
+      uglify = require('gulp-uglify'),
+      babel = require('gulp-babel'),
+      concat = require('gulp-concat'),
+      notify = require('gulp-notify'),
+      plumber = require('gulp-plumber'),
+      php = require('gulp-connect-php'),
+      browserSync = require('browser-sync').create(),
+      reload = browserSync.reload;
 
 
 
 // compile SASS
 gulp.task('styles', () => {
  return gulp.src('sass/compile.scss')
+  .pipe(plumber())
   .pipe(sourcemaps.init())
 
   .pipe(sass({outputStyle: 'compressed'})
@@ -48,24 +51,23 @@ gulp.task('styles', () => {
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('../dist/css'))
 
-  // re-inject styles into page
-  .pipe(livereload());
+  .pipe(reload({stream:true}));
 });
 
 
 
-// watch javascript
+// compile javascript
 gulp.task('scripts', () => {
   return gulp.src(['js/!(functions)*.js', 'js/functions.js'])
-  
+
   	// initialize sourcemaps
     .pipe(sourcemaps.init())
-    
-    // babel/es2015
+
+    // babel/es6
     .pipe(babel({
-        presets: [es2015]
+        presets: ["env"]
     }))
-    
+
     // error messages/notifications
     .on('error', console.error.bind(console))
     .on('error', (e) => {
@@ -74,39 +76,45 @@ gulp.task('scripts', () => {
   			message: "Javascript compile error",
   			sound: "Submarine"})(e);
   	})
-  	
+
   	// concatenate all js files in build/js directory
     .pipe(concat('scripts.min.js'))
-    
+
     // create sourcemap and compiled js
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('../dist/js'))
-    
-    // re-inject javasrcript into page
-    .pipe(livereload());
+
+    .pipe(reload({stream:true}));
 });
 
+
+// create php server with live reload (via BrowserSync)
+gulp.task('php', function() {
+    php.server({
+      base: '../dist/',
+      port: 8010,
+      keepalive: true
+    });
+});
+
+gulp.task('browser-sync',['php'], function() {
+    browserSync.init(null,{
+        proxy: '127.0.0.1:8010',
+        port: 8080,
+        open: true,
+        notify: false
+    });
+});
 
 
 // watch files for changes
 gulp.task('watch', () => {
-	livereload.listen();
-
-  //watch and reload PHP and html
-  gulp.watch('../**/*.php').on('change', function(file) {
-  	livereload.changed(file.path);
-  });
-
-  gulp.watch('../**/*.html').on('change', function(file) {
-  	livereload.changed(file.path);
- 	});
-
   gulp.watch('js/*.js', ['scripts']);
   gulp.watch('sass/*.scss', ['styles']);
   gulp.watch('sass/**/*.scss', ['styles']);
+  gulp.watch(['../dist/**/*.php', '../dist/*.php'], reload);
 });
 
 
-
 // Ready? Set... Go!
-gulp.task('default', ['styles', 'scripts', 'watch']);
+gulp.task('default', ['styles', 'scripts', 'watch', 'browser-sync']);

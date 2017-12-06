@@ -5,5 +5,5 @@ A local development starting point using Gulp to compile SCSS &amp; javascript
 
 1. clone/download repo
 2. "cd" into directory and run `npm install` to load gulp dependencies
-3. start localhost server and start coding!
- 
+3. run "gulp" and localhost server will open automatically 
+4. start coding!
