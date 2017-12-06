@@ -14,11 +14,8 @@
 	<![endif]-->
 
 	<title>New Site Starter Package</title>
-
 	<link rel="shortcut icon" href="favicon.ico">
-	<link rel="apple-touch-icon" href="apple-touch-icon-114x114.png">
-
-	<link rel='stylesheet' href='dist/css/layout.min.css' />
+	<link rel='stylesheet' href='css/layout.min.css' />
 
 <?php if($host == "localhost") { echo '<script src="http://localhost:35729/livereload.js?snipver=1"></script>'; } ?>
 
