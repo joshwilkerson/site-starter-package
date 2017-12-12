@@ -7,7 +7,7 @@ const gulp = require('gulp'),
       rename = require('gulp-rename'),
       autoprefixer = require('gulp-autoprefixer'),
       combineMq = require('gulp-combine-mq'),
-      uglify = require('gulp-uglify'),
+      uglify = require('gulp-uglify-es').default,
       babel = require('gulp-babel'),
       concat = require('gulp-concat'),
       notify = require('gulp-notify'),
@@ -79,6 +79,7 @@ gulp.task('scripts', () => {
 
   	// concatenate all js files in build/js directory
     .pipe(concat('scripts.min.js'))
+    .pipe(uglify())
 
     // create sourcemap and compiled js
     .pipe(sourcemaps.write('.'))
