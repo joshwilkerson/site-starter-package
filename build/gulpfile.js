@@ -69,13 +69,17 @@ gulp.task('scripts', () => {
     }))
 
     // error messages/notifications
-    .on('error', console.error.bind(console))
     .on('error', (e) => {
   		notify.onError({
   			title: "Gulp",
   			message: "Javascript compile error",
   			sound: "Submarine"})(e);
   	})
+
+    .on('error', function(error) {
+      console.log("Javascript ERROR >>>>>> " + error.toString())
+      this.emit('end')
+    })
 
   	// concatenate all js files in build/js directory
     .pipe(concat('scripts.min.js'))
