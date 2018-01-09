@@ -60,6 +60,8 @@ gulp.task('styles', () => {
 gulp.task('scripts', () => {
   return gulp.src(['js/!(functions)*.js', 'js/functions.js'])
 
+    .pipe(plumber())
+
   	// initialize sourcemaps
     .pipe(sourcemaps.init())
 
