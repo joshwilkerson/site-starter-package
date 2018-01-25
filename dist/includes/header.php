@@ -16,11 +16,8 @@
 	<title>New Site Starter Package</title>
 	<link rel="shortcut icon" href="favicon.ico">
 	<link rel='stylesheet' href='css/layout.min.css' />
-
-<?php if($host == "localhost") { echo '<script src="http://localhost:35729/livereload.js?snipver=1"></script>'; } ?>
-
 </head>
 
-<body<?php if($host == "localhost") { echo ' id="debug"'; } ?>>
+<body<?php if($host == "127.0.0.1") { echo ' id="debug"'; } ?>>
 
 <header></header>
