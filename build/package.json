@@ -31,6 +31,6 @@
     "gulp-util": "^3.0.8"
   },
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^4.0.2"
   }
 }
